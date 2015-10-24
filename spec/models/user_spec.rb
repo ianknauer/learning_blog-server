@@ -12,11 +12,14 @@ RSpec.describe User, type: :model do
     expect(User.first).to eq(@ian)
   end
 
-  it 'validates the uniqueness of email address' do
+  it "validates the uniqueness of email address" do
     bob = FactoryGirl.build(:user)
-    puts bob.valid?
     expect(bob.errors[:email]).to include "has already been taken"
   end
 
-  it
+  it "creats a password digest based on the password that can be used for authentication" do
+    password = "password"
+    subject = FactoryGirl.create(:user, password: password, email: "123@gmail.com")
+    expect(subject.authenticate(password)).to eq subject
+  end
 end
